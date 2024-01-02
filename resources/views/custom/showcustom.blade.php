@@ -16,16 +16,15 @@
                     @if ($index < count($columns))
                         <div class="col-md-2">
                             <label for="{{ Str::slug($columns[$index]) }}"
-                                class="form-label">{{ getLastWord($columns[$index]) }}</label>
+                                class="form-label">{{ $columns[$index] }}</label>
                             <input type="text" id="{{ Str::slug($columns[$index]) }}" class="form-control"
-                                value="{{ $oil[$columns[$index]] }}" readonly>
+                                value="{{ $custom[$columns[$index]] }}" readonly>
                         </div>
                     @endif
                 @endfor
             </div>
             <br>
         @endforeach
-
     </div>
 
     <!-- Add your JavaScript and other script elements here -->
@@ -35,7 +34,7 @@
 @php
     function getPrefix($name)
     {
-        $prefixes = ['min', 'max', 'border', 'per', 'ket'];
+        $prefixes = ['min', 'max', 'border', 'per', ];
 
         foreach ($prefixes as $prefix) {
             if (strpos($name, $prefix) === 0) {

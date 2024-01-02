@@ -13,9 +13,9 @@
 
     <!-- Nav Item - Dashboard -->
     <li class="nav-item">
-      <a class="nav-link" href="{{ route('dashboard') }}">
+      <a class="nav-link" href="{{ route('inventory.index') }}">
         <i class="fas fa-fw fa-oil-can"></i>
-        <span style="color: white;">Dashboard</span></a>
+        <span style="color: white;">Inventory</span></a>
     </li>
 
     <li class="nav-item">

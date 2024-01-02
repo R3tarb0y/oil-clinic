@@ -15,7 +15,7 @@ class AuthController extends Controller
     {
         return view('auth/register');
     }
-  
+
     public function registerSave(Request $request)
     {
         Validator::make($request->all(), [
@@ -23,14 +23,14 @@ class AuthController extends Controller
             'email' => 'required|email',
             'password' => 'required|confirmed'
         ])->validate();
-  
+
         User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'level' => 'Admin'
         ]);
-  
+
         return redirect()->route('login');
     }
 
@@ -44,27 +44,27 @@ class AuthController extends Controller
             'email' => 'required|email',
             'password' => 'required'
         ])->validate();
-  
+
         if (!Auth::attempt($request->only('email', 'password'), $request->boolean('remember'))) {
             throw ValidationException::withMessages([
                 'email' => trans('auth.failed')
             ]);
         }
-  
+
         $request->session()->regenerate();
-  
-        return redirect()->route('dashboard');
+
+        return redirect()->route('oil.index');
     }
 
     public function logout(Request $request)
     {
         Auth::guard('web')->logout();
-  
+
         $request->session()->invalidate();
-  
-        return redirect('login');
+
+        return redirect()->route('home');
     }
- 
+
     public function profile()
     {
         return view('profile');

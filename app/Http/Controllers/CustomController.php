@@ -1,0 +1,232 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\Custom;
+use Illuminate\Support\Facades\DB;
+
+class CustomController extends Controller
+{
+    public function index()
+    {
+
+        $result = DB::table('equip')
+            ->join('customer', 'customer.customerID', '=', 'equip.customerID')
+            ->join('area', 'area.areaID', '=', 'equip.areaID')
+            ->join('city', 'city.cityID', '=', 'area.cityID')
+            ->join('model', 'model.modelID', '=', 'equip.modelID')
+            ->join('custo_condem', 'custo_condem.equipID', '=', 'equip.equipID') // Mengganti nama tabel "condem" dengan "custo_condem"
+            ->select(
+                'customer.customerName',
+                'area.areaName',
+                'city.cityName',
+                'equip.equipCode',
+                'model.modelType',
+                'equip.engineNumber',
+                'custo_condem.*' // Menambahkan semua kolom dari tabel "custo_condem" ke dalam select
+            )
+            ->get();
+            return view('custom.custom', ['result' => $result]);
+    }
+
+
+    public function showcustom($conID)
+    {
+        $custom = Custom::findOrFail($conID);
+
+        if (!$custom) {
+            return abort(404);
+        }
+
+        $columns = [
+            'Vk 40 min',
+            'Vk 40 max',
+            'Vk 40 border',
+            'Vk 40 per',
+            'Vk 100 min',
+            'Vk 100 max',
+            'Vk 100 border',
+            'Vk 100 per',
+            'Oxi min',
+            'Oxi max',
+            'Oxi border',
+            'Oxi per',
+            'P min',
+            'P max',
+            'P border',
+            'P per',
+            'Wt min',
+            'Wt max',
+            'Wt border',
+            'Wt per',
+            'Zn min',
+            'Zn max',
+            'Zn border',
+            'Zn per',
+            'Soot min',
+            'Soot max',
+            'Soot border',
+            'Soot per',
+            'Nit min',
+            'Nit max',
+            'Nit border',
+            'Nit per',
+            'TAN min',
+            'TAN max',
+            'TAN border',
+            'TAN per',
+            'Ca min',
+            'Ca max',
+            'Ca border',
+            'Ca per',
+            'Fu min',
+            'Fu max',
+            'Fu border',
+            'Fu per',
+            'TBN min',
+            'TBN max',
+            'TBN border',
+            'TBN per',
+            'Ag min',
+            'Ag max',
+            'Ag border',
+            'Ag per',
+            'Sn min',
+            'Sn max',
+            'Sn border',
+            'Sn per',
+            'Pb min',
+            'Pb max',
+            'Pb border',
+            'Pb per',
+            'Fe min',
+            'Fe max',
+            'Fe border',
+            'Fe per',
+            'Cu min',
+            'Cu max',
+            'Cu border',
+            'Cu per',
+            'Cr min',
+            'Cr max',
+            'Cr border',
+            'Cr per',
+            'Al min',
+            'Al max',
+            'Al border',
+            'Al per',
+            'Si min',
+            'Si max',
+            'Si border',
+            'Si per',
+            'Na min',
+            'Na max',
+            'Na border',
+            'Na per',
+            'PI min',
+            'PI max',
+            'PI border',
+            'PI per',
+            'TI min',
+            'TI max',
+            'TI border',
+            'TI per',
+            'Sulf min',
+            'Sulf max',
+            'Sulf border',
+            'Sulf per',
+            'Mg min',
+            'Mg max',
+            'Mg border',
+            'Mg per',
+            'Mo min',
+            'Mo max',
+            'Mo border',
+            'Mo per',
+            'NAS 1638 min',
+            'NAS 1638 max',
+            'NAS 1638 border',
+            'NAS 1638 per',
+            'V min',
+            'V max',
+            'V border',
+            'V per',
+            'FP COC min',
+            'FP COC max',
+            'FP COC border',
+            'FP COC per',
+            'Wt D 95 min',
+            'Wt D 95 max',
+            'Wt D 95 border',
+            'Wt D 95 per',
+            'Wt KF min',
+            'Wt KF max',
+            'Wt KF border',
+            'Wt KF per',
+            'Gly min',
+            'Gly max',
+            'Gly border',
+            'Gly per',
+            'TBN_D4739 min',
+            'TBN_D4739 max',
+            'TBN_D4739 border',
+            'TBN_D4739 per',
+            'PP min',
+            'PP max',
+            'PP border',
+            'PP per',
+            'Ni min',
+            'Ni max',
+            'Ni border',
+            'Ni per',
+            'B min',
+            'B max',
+            'B border',
+            'B per',
+        ];
+
+        $categories = [
+            'Vk 40' => 4,
+            'Vk 100' => 4,
+            'Oxi' => 4,
+            'P' => 4,
+            'Wt' => 4,
+            'Zn' => 4,
+            'Soot' => 4,
+            'Nit' => 4,
+            'TAN' => 4,
+            'Ca' => 4,
+            'Fu' => 4,
+            'TBN' => 4,
+            'Ag' => 4,
+            'Sn' => 4,
+            'Pb' => 4,
+            'Fe' => 4,
+            'Cu' => 4,
+            'Cr' => 4,
+            'Al' => 4,
+            'Si' => 4,
+            'Na' => 4,
+            'PI' => 4,
+            'PL' => 4,
+            'TI' => 4,
+            'Sulf' => 4,
+            'Mg' => 4,
+            'Mo' => 4,
+            'NAS 1638' => 4,
+            'V' => 4,
+            'FP COC' => 4,
+            'Wt D 95' => 4,
+            'Wt KF' => 4,
+            'Gly' => 4,
+            'TBN_D4739' => 4,
+            'PP' => 4,
+            'NI' => 4,
+            'B' => 4,
+        ];
+
+        return view('custom.showcustom', compact('custom','columns', 'categories'));
+    }
+
+}
