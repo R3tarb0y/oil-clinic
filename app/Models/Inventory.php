@@ -16,6 +16,7 @@ class Inventory extends Model
         'jumlah',
         'gambar',
         'status',
+        'barcode'
 
     ];
 }

@@ -30,6 +30,14 @@ class InventoryController extends Controller
 
     public function store(Request $request)
     {
+        $number = mt_rand(1000000000, 9999999999);
+
+        if ($this->productCodeExists($number)) {
+            $number = mt_rand(1000000000, 9999999999);
+        }
+
+        $request['barcode'] = $number;
+
         $request->validate([
             'nama' => 'required|string',
             'jenis' => 'required|string',
@@ -45,6 +53,7 @@ class InventoryController extends Controller
         $inventory->kategori = $request->kategori;
         $inventory->jumlah = $request->jumlah;
         $inventory->status = $request->status;
+        $inventory->barcode = $request['barcode']; // Set the barcode field
 
         if ($request->hasFile('gambar')) {
             $gambarPath = $request->file('gambar')->store('public/gambar');
@@ -54,6 +63,10 @@ class InventoryController extends Controller
         $inventory->save();
 
         return redirect()->route('inventory.index')->with('success', 'Inventory created successfully.');
+    }
+
+    public function productCodeExists($number){
+        return Inventory::whereBarcode($number)->exists();
     }
 
 
@@ -98,21 +111,6 @@ class InventoryController extends Controller
             ->with('success', 'Inventory deleted successfully.');
     }
 
-    public function generateBarcode($id)
-    {
-        $inventory = Inventory::find($id);
-
-        // Generate barcode menggunakan library milon/barcode (misalnya, barcode128)
-        $barcodeData = 'INV-'.$inventory->id; // Misalnya, format barcode INV-1
-        $barcodePath = public_path('barcodes/'.$inventory->id.'.png');
-
-        $barcode = DNS1D::getBarcodePNG($barcodeData, 'C128', 2, 40);
-
-        // Simpan barcode di public/barcodes
-        file_put_contents($barcodePath, $barcode);
-
-        return redirect()->route('inventories.index')->with('success', 'Barcode berhasil di-generate dan disimpan.');
-    }
 
     public function printBarcode($id)
     {

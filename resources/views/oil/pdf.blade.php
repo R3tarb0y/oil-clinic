@@ -46,7 +46,7 @@
 <body>
     <div class="container">
         <div class="logo-left">
-            <img src="{{ asset('assets/oil-clinic.png') }}" alt="logo" style="height: 3em; width: 2em;">
+            <img src="{{ public_path('path/to/oil-clinic.png') }}" style="height: 3em; width: 2em;">
         </div>
         <h1>Condemning Limit</h1>
 

@@ -4,6 +4,8 @@
     <div class="container">
         <h1>Inventory List</h1>
 
+
+
         <a class="btn btn-primary" href="{{ route('inventory.create') }}">Add Inventory</a>
 
         <table class="table">
@@ -14,10 +16,10 @@
                     <th>Jenis</th>
                     <th>Jumlah</th>
                     <th>Status</th>
-                    <th>Gambar</th>
                     <th>Kategori</th>
-                    <th>Action</th>
+                    <th>Gambar</th>
                     <th>Barcode</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -28,13 +30,20 @@
                         <td>{{ $inventory->jenis }}</td>
                         <td>{{ $inventory->jumlah }}</td>
                         <td>{{ $inventory->status }}</td>
-                        <td>
-                            <img src="{{ asset('/storage/' . $inventory->gambar) }}" alt="{{ $inventory->nama }}" style="max-width: 80px;">
-                        </td>
+
                         <td>{{ $inventory->kategori }}</td>
                         <td>
+                            <img src="{{ asset('storage/' . $inventory->gambar) }}" alt="{{ $inventory->nama }}" style="max-width: 80px;">
+
+                        </td>
+
+                        <td>{!! DNS1D::getBarcodeHTML("$inventory->barcode",'C128',2,40) !!}
+                            {{ $inventory->barcode }}
+                           </td>
+
+                        <td>
                             <a class="btn btn-primary" href="{{ route('inventory.edit', $inventory->id) }}">Edit</a>
-                            <a href="{{ route('inventory.printBarcode', $inventory->id) }}" target="_blank">Print Barcode</a>
+                            <a class="btn btn-primary" href="{{ route('inventory.printBarcode', $inventory->id) }}" target="_blank">Print Barcode</a>
                             <form action="{{ route('inventory.destroy', $inventory->id) }}" method="POST" style="display: inline;">
                                 @csrf
                                 @method('DELETE')
@@ -42,8 +51,7 @@
                             </form>
                         </td>
                         <td>
-                            <img src="{{ route('inventory.printBarcode', $inventory->id) }}" alt="Barcode" width="100" height="50">
-                        </td>
+
                     </tr>
                 @endforeach
             </tbody>

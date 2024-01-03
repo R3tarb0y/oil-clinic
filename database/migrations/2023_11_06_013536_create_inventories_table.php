@@ -16,6 +16,7 @@ class CreateInventoriesTable extends Migration
             $table->integer('jumlah');
             $table->string('gambar')->nullable();
             $table->string('status');
+            $table->integer('barcode');
             $table->timestamps();
         });
     }
